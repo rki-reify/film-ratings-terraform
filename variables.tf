@@ -30,25 +30,25 @@ variable "db_password" {
   description = "Database password"
 }
 
-variable "film_ratings_app_image" {
+variable "reify_interview_app_image" {
   description = "Docker image for the film ratings application"
 }
 
 ########################### Test VPC Config ################################
 
-variable "film_ratings_vpc" {
+variable "reify_interview_vpc" {
   description = "VPC for Film Ratings environment"
 }
 
-variable "film_ratings_network_cidr" {
+variable "reify_interview_network_cidr" {
   description = "IP addressing for Film Ratings Network"
 }
 
-variable "film_ratings_public_01_cidr" {
+variable "reify_interview_public_01_cidr" {
   description = "Public 0.0 CIDR for externally accessible subnet"
 }
 
-variable "film_ratings_public_02_cidr" {
+variable "reify_interview_public_02_cidr" {
   description = "Public 0.0 CIDR for externally accessible subnet"
 }
 

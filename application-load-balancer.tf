@@ -1,18 +1,18 @@
-resource "aws_alb" "film_ratings_alb_load_balancer" {
+resource "aws_alb" "reify_interview_alb_load_balancer" {
   name                = "film-ratings-alb-load-balancer"
-  security_groups     = ["${aws_security_group.film_ratings_public_sg.id}"]
-  subnets             = ["${aws_subnet.film_ratings_public_sn_01.id}", "${aws_subnet.film_ratings_public_sn_02.id}"]
+  security_groups     = ["${aws_security_group.reify_interview_public_sg.id}"]
+  subnets             = ["${aws_subnet.reify_interview_public_sn_01.id}", "${aws_subnet.reify_interview_public_sn_02.id}"]
 
   tags = {
     Name = "film-ratings-alb-load-balancer"
   }
 }
 
-resource "aws_alb_target_group" "film_ratings_app_target_group" {
+resource "aws_alb_target_group" "reify_interview_app_target_group" {
   name                = "film-ratings-app-target-group"
-  port                =  3000
+  port                =  8080
   protocol            = "HTTP"
-  vpc_id              = "${aws_vpc.film_ratings_vpc.id}"
+  vpc_id              = "${aws_vpc.reify_interview_vpc.id}"
   deregistration_delay = "10"
 
   health_check {
@@ -35,18 +35,18 @@ resource "aws_alb_target_group" "film_ratings_app_target_group" {
 }
 
 resource "aws_alb_listener" "alb-listener" {
-  load_balancer_arn = "${aws_alb.film_ratings_alb_load_balancer.arn}"
+  load_balancer_arn = "${aws_alb.reify_interview_alb_load_balancer.arn}"
   port              = "80"
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = "${aws_alb_target_group.film_ratings_app_target_group.arn}"
+    target_group_arn = "${aws_alb_target_group.reify_interview_app_target_group.arn}"
     type             = "forward"
   }
 }
 
 resource "aws_autoscaling_attachment" "asg_attachment_film_rating_app" {
   autoscaling_group_name = "film-ratings-autoscaling-group"
-  alb_target_group_arn   = "${aws_alb_target_group.film_ratings_app_target_group.arn}"
+  alb_target_group_arn   = "${aws_alb_target_group.reify_interview_app_target_group.arn}"
   depends_on = [ "aws_autoscaling_group.film-ratings-autoscaling-group" ]
 }
